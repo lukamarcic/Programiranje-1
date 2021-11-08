@@ -15,19 +15,19 @@ frontpage_filename = 'TODO'
 csv_filename = 'TODO'
 
 
-def download_url_to_string(url):
-    """Funkcija kot argument sprejme niz in puskuša vrniti vsebino te spletne
-    strani kot niz. V primeru, da med izvajanje pride do napake vrne None.
-    """
-    try:
-        # del kode, ki morda sproži napako
-        page_content = 'TODO'
-    except 'TODO':
-        # koda, ki se izvede pri napaki
-        # dovolj je če izpišemo opozorilo in prekinemo izvajanje funkcije
-        raise NotImplementedError()
-    # nadaljujemo s kodo če ni prišlo do napake
-    raise NotImplementedError()
+#def download_url_to_string(url):
+#    """Funkcija kot argument sprejme niz in puskuša vrniti vsebino te spletne
+#    strani kot niz. V primeru, da med izvajanje pride do napake vrne None.
+#    """
+#    try:
+#        # del kode, ki morda sproži napako
+#        page_content = 'TODO'
+#    except 'TODO':
+#        # koda, ki se izvede pri napaki
+#        # dovolj je če izpišemo opozorilo in prekinemo izvajanje funkcije
+#        raise NotImplementedError()
+#    # nadaljujemo s kodo če ni prišlo do napake
+#    raise NotImplementedError()
 
 
 def save_string_to_file(text, directory, filename):
