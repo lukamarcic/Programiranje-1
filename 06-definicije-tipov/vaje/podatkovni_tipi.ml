@@ -1,4 +1,4 @@
-(* ========== Vaja 3: Definicije Tipov  ========== *)
+(* ========== Vaja 3: Definicije Tipov  ========== * začetek vaj)
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  Pri modeliranju denarja ponavadi uporabljamo racionalna števila. Problemi se
