@@ -21,6 +21,11 @@
  - : euro = Euro 0.4305
 [*----------------------------------------------------------------------------*)
 
+type dollar = Dollar of float;;
+type euro = Euro of float;;
+
+let dollar_to_euro (Dollar x) = Euro (x *. 0.89);;
+let euro_to_dollar (Euro x) = Dollar (x *. 1.13);;
 
 
 (*----------------------------------------------------------------------------*]
@@ -35,6 +40,15 @@
  - : currency = Pound 0.007
 [*----------------------------------------------------------------------------*)
 
+type currency =
+	|Yen of float
+    |Pound of float
+    |Sek of float ;;
+
+let to_pound = function
+    | Yen y -> Pound (y *. 0.0065)
+    | Pound y -> Pound y
+    | Sek y -> Pound (y *. 0.083) ;;
 
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
@@ -57,7 +71,10 @@
  Nato napišite testni primer, ki bi predstavljal "[5; true; false; 7]".
 [*----------------------------------------------------------------------------*)
 
-
+type intbool_list =
+       | Nil
+    | Int of int * intbool_list
+    | Bool of bool * intbool_list;;
 
 (*----------------------------------------------------------------------------*]
  Funkcija [intbool_map f_int f_bool ib_list] preslika vrednosti [ib_list] v nov
@@ -65,15 +82,25 @@
  oz. [f_bool].
 [*----------------------------------------------------------------------------*)
 
-let rec intbool_map = ()
+    
+let rec intbool_map f_int f_bool = function
+	|Nil -> Nil
+    |Int (i, t) -> Int (f_int i, intbool_map f_int f_bool t )
+    |Bool (b, t) -> Bool (f_bool i, intbool_map f_int f_bool t );;
 
 (*----------------------------------------------------------------------------*]
  Funkcija [intbool_reverse] obrne vrstni red elementov [intbool_list] seznama.
  Funkcija je repno rekurzivna.
 [*----------------------------------------------------------------------------*)
 
-let rec intbool_reverse = ()
-
+let intbool_reverse iblst =
+	let rec aux acc = function
+		| Nil -> acc
+        | Int (i, t) -> aux (Int (i, acc)) t 
+        | Bool (b, t) -> aux (Bool (b, acc)) t 
+    in
+    aux Nil;;
+    
 (*----------------------------------------------------------------------------*]
  Funkcija [intbool_separate ib_list] loči vrednosti [ib_list] v par [list]
  seznamov, kjer prvi vsebuje vse celoštevilske vrednosti, drugi pa vse logične
@@ -98,6 +125,17 @@ let rec intbool_separate = ()
  [specialisation], ki loči med temi zaposlitvami.
 [*----------------------------------------------------------------------------*)
 
+type magic =
+	| Fire
+    | Frost
+    | Arcane;;
+    
+type specialisation =
+	| Historian
+    | Teacher
+    | Researcher;;
+    
+
 
 
 (*----------------------------------------------------------------------------*]
@@ -115,7 +153,10 @@ let rec intbool_separate = ()
  - : wizard = {name = "Matija"; status = Employed (Fire, Teacher)}
 [*----------------------------------------------------------------------------*)
 
-
+type status =
+	| Newbie
+    | Student
+    | Employed
 
 (*----------------------------------------------------------------------------*]
  Želimo prešteti koliko uporabnikov posamezne od vrst magije imamo na akademiji.
@@ -128,7 +169,16 @@ let rec intbool_separate = ()
  - : magic_counter = {fire = 1; frost = 1; arcane = 2}
 [*----------------------------------------------------------------------------*)
 
+type magic_counter = {
+	fire: int;
+    frost: int;
+    aracen: int;
+};;
 
+let update_counter = function
+	| Fire -> {counter with fire = counter.fire +1}
+    | Frost -> {counter with frost = counter.frost +1}
+    |Arcane -> {counter with arcane = counter.arcane +1}
 
 (*----------------------------------------------------------------------------*]
  Funkcija [count_magic] sprejme seznam čarodejev in vrne števec uporabnikov
