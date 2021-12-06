@@ -5,7 +5,15 @@
  bodisi prazna, bodisi pa vsebujejo podatek in imajo dve (morda prazni)
  poddrevesi. Na tej točki ne predpostavljamo ničesar drugega o obliki dreves.
 [*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*)
-
+type 'a tree =
+     | Empty
+     | Node of 'a tree * 'a * 'a tree
+   
+   
+let leaf x = Node (Empty, x, Empty )
+   
+let test_tree = Node (Node (leaf 0, 2, Empty), 5, Node (leaf 6, 7, leaf 11)) 
+       
 
 (*----------------------------------------------------------------------------*]
  Definirajmo si testni primer za preizkušanje funkcij v nadaljevanju. Testni
@@ -32,7 +40,9 @@
  Node (Node (Node (Empty, 11, Empty), 7, Node (Empty, 6, Empty)), 5,
  Node (Empty, 2, Node (Empty, 0, Empty)))
 [*----------------------------------------------------------------------------*)
-
+let rec mirror = function
+  | Empty -> Empty
+  | Node (l, x, r) -> Node (mirror r, x, mirror l)
 
 (*----------------------------------------------------------------------------*]
  Funkcija [height] vrne višino oz. globino drevesa, funkcija [size] pa število
@@ -43,7 +53,21 @@
  # size test_tree;;
  - : int = 6
 [*----------------------------------------------------------------------------*)
-
+let rec size = function
+  | Empty -> 0
+  | Node (l, x, r) -> 1 + size l + size r
+                      
+let height tree =
+  let rec height_aux acm tree =
+    match tree with
+    | Empty -> acm
+    | Node (l, x, r) -> height_aux (acm + 1) l
+  in
+  height_aux 0 tree
+    
+let rec height_2 = function
+  | Empty -> 0
+  | Node (l, x, r) -> 1 + max (height_2 l) (height_2 r)
 
 (*----------------------------------------------------------------------------*]
  Funkcija [map_tree f tree] preslika drevo v novo drevo, ki vsebuje podatke
@@ -54,7 +78,9 @@
  Node (Node (Node (Empty, false, Empty), false, Empty), true,
  Node (Node (Empty, true, Empty), true, Node (Empty, true, Empty)))
 [*----------------------------------------------------------------------------*)
-
+let rec map_tree f = function
+  | Empty -> Empty
+  | Node (l, x, r) -> Node (map_tree f l,f x, map_tree f r) 
 
 (*----------------------------------------------------------------------------*]
  Funkcija [list_of_tree] pretvori drevo v seznam. Vrstni red podatkov v seznamu
@@ -63,7 +89,16 @@
  # list_of_tree test_tree;;
  - : int list = [0; 2; 5; 6; 7; 11]
 [*----------------------------------------------------------------------------*)
-
+let list_of_tree tree =
+     let rec list_aux acm tree =
+       match tree with
+       | Empty -> acm
+       | Node (l, x, r) -> match r with
+         | Empty -> list_aux (x :: acm) l
+         | Node (a, b, c) -> list_aux (list_aux [] r) (Node (l, x, Empty))
+     in
+     list_aux [] tree 
+       
 
 (*----------------------------------------------------------------------------*]
  Funkcija [is_bst] preveri ali je drevo binarno iskalno drevo (Binary Search 

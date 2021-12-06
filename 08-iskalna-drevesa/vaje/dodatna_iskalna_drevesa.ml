@@ -12,7 +12,7 @@
 
 (*----------------------------------------------------------------------------*]
  Funkcija [tree_sort] uredi seznam s pomočjo pretvorbe v bst in nato nazaj
- v seznam.aa
+ v seznam.
 
  Opomba: Prosim ne uporabljajte te funkcije v praksi.
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
