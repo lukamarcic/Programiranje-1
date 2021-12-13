@@ -1,7 +1,7 @@
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  Prioritetna vrsta je podatkovna struktura, ki hrani elemente glede na njihovo
  prioriteto. Elementi z višjo prioriteto so na voljo pred elementi z nižjo
- prioriteto. 
+ prioriteto. aaa
 [*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*)
 
 type comparison = LT | EQ | GT
