@@ -8,8 +8,17 @@
  # let l = randlist 10 10 ;;
  val l : int list = [0; 1; 0; 4; 0; 9; 1; 2; 5; 4]
 [*----------------------------------------------------------------------------*)
+let randlist len max =
+  if len <= 0 then []
+  else
+    let rec randlist_aux len_aux max acc =
+      match len_aux with
+      | 0 -> acc
+      | x -> randlist_aux (x - 1) max (Random.int max :: acc)
+  in
+  randlist_aux len max []
 
-
+  
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  Sedaj lahko s pomočjo [randlist] primerjamo našo urejevalno funkcijo (imenovana
  [our_sort] v spodnjem primeru) z urejevalno funkcijo modula [List]. Prav tako
@@ -34,13 +43,22 @@
  # insert 7 [];;
  - : int list = [7]
 [*----------------------------------------------------------------------------*)
-
+let insert y xs = 
+  match xs with
+  | [] -> [y]
+  | list -> List.sort compare (y :: list)
 
 (*----------------------------------------------------------------------------*]
  Prazen seznam je že urejen. Funkcija [insert_sort] uredi seznam tako da
  zaporedoma vstavlja vse elemente seznama v prazen seznam.
 [*----------------------------------------------------------------------------*)
-
+let insert_sort list =
+  let rec insert_sort_aux acc list_aux =
+    match list_aux with
+    | [] -> acc
+    | x :: xs -> insert_sort_aux (x :: acc) xs
+  in
+  insert_sort_aux [] list
 
 
 (*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*]
@@ -53,14 +71,26 @@
  pojavitvijo elementa [z]. V primeru praznega seznama vrne [None]. 
 [*----------------------------------------------------------------------------*)
 
-
+let rec find_min current_min = function
+  | [] -> current_min
+  | x :: xs -> min current_min (x ::xs)
+                                      
+let rec remove_one z lst = function
+  | [] failwith "Element not found"
+  | x :: xs -> if z = x then xs else x :: remove_one z xs 
+                                       
+let min_and_rest = function
+  | []-Y None
+  | x :: xs ->
+      let z = find_min x xs in
+      Some (z, remove_one z (x ::xs)) 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  Pri urejanju z izbiranjem na vsakem koraku ločimo dva podseznama, kjer je prvi
  že urejen, drugi pa vsebuje vse elemente, ki jih je še potrebno urediti. Nato
  zaporedoma prenašamo najmanjši element neurejenega podseznama v urejen
  podseznam, dokler ne uredimo vseh. 
 
- Če pričnemo z praznim urejenim podseznamom, vemo, da so na vsakem koraku vsi
+ Če pričn   emo z praznim urejenim podseznamom, vemo, da so na vsakem koraku vsi
  elementi neurejenega podseznama večji ali enaki elementom urejenega podseznama,
  saj vedno prenesemo najmanjšega. Tako vemo, da moramo naslednji najmanjši člen
  dodati na konec urejenega podseznama.
